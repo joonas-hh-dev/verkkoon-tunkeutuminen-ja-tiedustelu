@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <title>h2 - Nuuh</title>
+</head>
+<body>
+    <h1>h2 - Nuuh</h1>
+
+    <h2>c) Wireshark</h2>
+
+    <p>Ensin ajoin komennon: <code>sudp apt update</code>.</p>
+
+    <p>Sen jälkeen: <code>sudo apt-get install wireshark</code>. Asennus piti vahvistaa.</p>
+
+    <p>Kun käynnistin Wiresharkin, sain ilmoituksen, ettei minulla ole oikeutta siepata paketteja.</p>
+
+    <p>Ajoin komennon: <code>dpkg-reconfigure wireshark-common</code>. Komento piti ajaa vielä uudestaan juurikäyttäjänä.</p>
+
+    <p>Sen jälkeen lisäsin itseni Wireshark-ryhmään: <code>sudo usermod -aG wireshark $USER</code>.</p>
+
+    <p>Tämän jälkeen valitsin Wiresharkissa enp0s3 (oman virtuaalikoneeni verkkokortti) ja liikennettä alkoi näkyä.</p>
+
+    <h2>Lähteet</h2>
+
+    <ul>
+    </ul>
+
+    <p>
+        <a href="index.html">Takaisin etusivulle</a>
+    </p>
+</body>
+</html>
