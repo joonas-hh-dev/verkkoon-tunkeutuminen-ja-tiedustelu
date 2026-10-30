@@ -9,7 +9,13 @@
 
     <h2>b) Ei voi kalastaa</h2>
 
-    <p>Ajoin komennon: <code>nmcli networking off</code></p>
+    <p>Ajoin komennon: <code>nmcli networking off</code>.</p>
+
+    <p>Sen jälkeen ajoin: <code>ping -c 1 8.8.8.8</code>. Lisäsin <code>-c 1</code> flagin, koska muuten pingailu jatkuu loputtomiin, vaikka yhteyttä katkaistaessa sillä ei olekaan väliä.</p>
+
+    <p>Palautin yhteyden komennolla: <code>nmcli networking on</code>.</p>
+
+    <img src="eivoikalastaa3.png" alt="Yhteyden katkaiseminen ja palauttaminen" width="700">
 
     <h2>c) Wireshark</h2>
 
