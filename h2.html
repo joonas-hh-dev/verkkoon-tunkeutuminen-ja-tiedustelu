@@ -33,6 +33,28 @@
 
     <img src="wireshark.png" alt="Otos Wiresharkin liikenteestä" width="700">
 
+    <h2>Oikeesti TCP/IP</h2>
+
+    <p>Avasin selaimessa google.com-sivun ja sieppasin liikennettä Wiresharkilla. Avasin yhden TLS-paketin, jossa näkyi neljä kerrosta.</p>
+
+    <b>Peruskerros - Ethernet II</b>
+
+    <p>Peruskerros huolehtii tiedonsiirrosta paikallisessa verkossa. Se määrittää, miten tietokoneet voivat olla yhteydessä toisiinsa ohittamatta reititintä.</p>
+
+    <b>Kuljetuskerros - Transmission Control Protocol</b>
+
+    <p>Kuljetuskerros vastaa tiedonsiirrosta joko samassa tai eri verkossa olevien tietokoneiden välillä. Se mahdollistaa sovellusten viestimisen toisilleen.</p>
+
+    <b>Sovelluskerros - Transport Layer Security</b>
+
+    <p>Sovelluskerros sisältää protokollia, jotka mahdollistavat palveluiden käytön. Esimerkkejä näistä ovat HTTP, FTP ja SMTP.</p>
+
+    <b>Verkkokerros - Internet Protocol Version 4</b>
+
+    <p>Verkkokerroksen avulla eri verkot voivat olla yhteydessä toisiinsa tuntematta toistensa rakennetta. Toisien sanoen se mahdollistaa Internetin.</p>
+
+    <img src="oikeestitcpip.png" alt="TCP/IP-kerrokset" width="700">
+
     <h2>Lähteet</h2>
 
     <ul>
