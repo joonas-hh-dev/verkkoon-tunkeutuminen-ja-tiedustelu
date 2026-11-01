@@ -79,6 +79,20 @@
 
     <img src="mikapalvelin.png" alt="Millä weppipalvelimella käyttäjä on surffaillut?" width="700">
 
+    <h2>i) Analyysi</h2>
+
+    <p>Laitoin Wiresharkin kaappauksen päälle ja ajoin komennon <code>ping -c 2 8.8.8.8</code>. Sen jälkeen lisäsin Wiresharkiin suodattimen <code>ip.src == 8.8.8.8 or ip.dst == 8.8.8.8</code>, jotta sain näkyviin sekä lähettämäni pyynnöt (Echo Request) että niihin saapuneet vastaukset (Echo Reply).</p>
+
+    <p>Valitsin ensimmäisen Echo Request -paketin ja tarkastelin sen tietoja. Ethernet II -kerroksessa lähde-MAC alkoi tunnuksella 08:00:27, joka viittaa virtuaaliverkkokorttiini. Kohde-MAC alkoi tunnuksella 52:54:00, joka viittaa virtuaaliseen verkkoliitäntään. Kyseessä on todennäköisesti virtuaaliverkon yhdyskäytävä.</p>
+
+    <p>IPv4-kerroksessa paketin kohdeosoite oli 8.8.8.8. Time to Live (TTL) -arvo oli 64. Se kertoo, kuinka monen reitittimen kautta paketti voi vielä kulkea. Jokainen reititin pienentää arvoa vähintään yhdellä, ja jos arvo putoaa nollaan, paketti hylätään.</p>
+
+    <p>Paketissa käytettiin ICMP-protokollaa, jota hyödynnetään muun muassa verkkoyhteyksien testaamiseen ja verkkovirheistä ilmoittamiseen. ICMP-liikennettä syntyi, koska käytin ping-komentoa testatakseni, vastaako osoitteessa 8.8.8.8 oleva kohde. ICMP-kerroksessa viestin tyyppi (Type) oli 8 eli Echo Request ja koodi (Code) oli 0.</p>
+
+    <p>Tarkastelin myös Echo Reply -pakettia, joka oli vastaus lähettämääni pyyntöön. Vastauksessa IPv4-kerroksen lähdeosoite oli 8.8.8.8 ja kohdeosoite oli oma virtuaalikoneeni. ICMP-viestin tyyppi (Type) oli 0 eli Echo Reply ja koodi (Code) oli 0.</p>
+
+    <p>ICMP-kerroksessa näkyi myös sekvenssinumero (Sequence Number). Koska lähetin kaksi pyyntöä ja sain kaksi vastausta, pystyin vertaamaan sekvenssinumeroita ja tunnistamaan, mikä vastaus kuului mihinkin pyyntöön.</p>
+
     <h2>Lähteet</h2>
 
     <ul>
