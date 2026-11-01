@@ -69,6 +69,8 @@
 
     <p>Muistelin, että luennolla oli ollut puhetta siitä, että MAC-osoitteen alku kertoo verkkokortin valmistajan. Avasin kaappauksen ensimmäisen paketin ja kopioin Ethernet II:n Source-kohdasta numerot 52:54:00. Liitin ne Google-hakuun. Paljastui, että kyseinen numero on tavallinen QEMU- ja KVM -virtuaalikoneiden verkkokortti. Varsinaista valmistajaa en siis pystynyt selvittämään, koska kyseessä on virtuaalinen eikä oikea verkkokortti.</p>
 
+    <img src="mikakortti.png" alt="Minkä merkkinen verkkokortti käyttäjällä on?" width="700">
+    
     <h2>h) Millä weppipalvelimella käyttäjä on surffaillut?</h2>
 
     <p>Avasin kaappauksen ensimmäisen TLSv1.3.-paketin ja katsoin TLS-kohdasta Handshake Protocol: Client Hello ja Extension: server_name. Sen perusteella palvelin on terokarvinen.com</p>
