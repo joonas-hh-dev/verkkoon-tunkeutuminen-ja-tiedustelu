@@ -33,7 +33,7 @@
 
     <img src="wireshark.png" alt="Otos Wiresharkin liikenteestä" width="700">
 
-    <h2>Oikeesti TCP/IP</h2>
+    <h2>d) Oikeesti TCP/IP</h2>
 
     <p>Avasin selaimessa google.com-sivun ja sieppasin liikennettä Wiresharkilla. Avasin yhden TLS-paketin, jossa näkyi neljä kerrosta.</p>
 
@@ -55,7 +55,7 @@
 
     <img src="oikeestitcpip.png" alt="TCP/IP-kerrokset" width="700">
 
-    <h2>Mitäs tuli surffattua?</h2>
+    <h2>e) Mitäs tuli surffattua?</h2>
 
     <p>Avasin tiedoston Wiresharkissa ja valitsin ylalaidasta Statistics ja Capture File Properties. Sen perusteella paketteja on yhteensä 283 kappaletta. Yhteensä pakettien koko on 122445 tavua ja yhden paketin keskimääräinen koko on 433 tavua.</p>
 
@@ -64,6 +64,10 @@
     <p>Protocol Hierarchy Statistics -raportista näkyy, että kaapatut paketit sisältävät muun muassa DNS-, TCP-, TLS- ja QUIC -protokollia. DNS:ää käytetään verkko-osoitetta vastaavan IP-osoitteen selvittämiseen, TCP:tä luotettavan tiedonsiirron varmistamiseen ja TLS:ää liikenteen salaamiseen. QUIC mahdollistaa suojatun UDP-liikenteen. UDP puolestaan on nopea, mutta epäluotettava protokolla pakettien liikutteluun.</p>
 
     <p>Statistics Endpoint -raportin IPv4-välilehdeltä käy ilmi, että paketteja on lähtetetty 7 osoitteeseen.</p>
+
+    <h2>g) Minkä merkkinen verkkokortti käyttäjällä on?</h2>
+
+    <p>Muistelin, että luennolla oli ollut puhetta siitä, että MAC-osoitteen alku kertoo verkkokortin valmistajan. Avasin kaappauksen ensimmäisen paketin ja kopioin Ethernet II:n Source-kohdasta numerot 52:54:00. Liitin ne Google-hakuun. Paljastui, että kyseinen numero on tavallinen QEMU- ja KVM -virtuaalikoneiden verkkokortti. Varsinaista valmistajaa en siis pystynyt selvittämään, koska kyseessä on virtuaalinen eikä oikea verkkokortti.</p>
 
     <h2>Lähteet</h2>
 
