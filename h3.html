@@ -37,24 +37,47 @@
 
     <p>-Puretusta signaalista saadaan anturin tunniste, ja lämpötila- ja kosteustiedot.</p>
 
-    <p></p>
+    <h2>b) rtl_433</h2>
+
+    <p>
+        Virtuaalikoneen tiedot:<br>
+        Operating System: Debian GNU/Linux 13 (trixie)<br>
+        Kernel: Linux 6.12.115+deb13.1-amd64<br>
+        Architecture: x86-64<br>
+        Virtualization: oracle<br>
+        Hardware Model: VirtualBox
+    </p>
+
+    <p>Seurasin <a href="https://github.com/merbanan/rtl_433">rtl_433:n Git-repositorion</a> ohjeita ja ajoin komennon <code>sudo apt install rtl-433</code>.</p>
+
+    <p>Sen jälkeen ajoin <a href="https://terokarvinen.com/verkkoon-tunkeutuminen-ja-tiedustelu/">Teron ohjeiden</a> mukaisen testin: <code>./rtl_433</code>.</p>
+
+    <p>Aluksi sain virheen, ettei tiedostoa tai hakemistoa ole. Tarkistin missä hakemistossa olen <code>pwd</code>-komennolla ja sain vastaukseksi kotihakemiston. Seuraavaksi tarkistin, mihin rtl_433 on asennettu: <code>which rtl_433</code> ja se löytyi <code>/usr/bin/rtl_433</code>-hakemistosta. Sen jälkeen kokeilin vain <code>rtl_433</code> ja se toimi.</p>
+
+    <img src="rtl_433.png" alt="rtl_433 asennus" width="700">
 
     <h2>Lähteet</h2>
 
     <ul>
-        <li>Karvinen, T. 2026. Verkkoon tunkeutuminen ja tiedustelu.
-            <a href="https://terokarvinen.com/verkkoon-tunkeutuminen-ja-tiedustelu/">Verkkoon tunkeutuminen ja tiedustelu</a>.
-            Luettu 5.11.2026.
+        <li>Cornelius. 2022. Decode 433.92 MHz weather station data.
+            <a href="https://www.onetransistor.eu/2022/01/decode-433mhz-ask-signal.html">Decode 433.92 MHz weather station data</a>.
+            One Transistor. Luettu 5.11.2026.
         </li>
 
+        
         <li>Hubacek. 2019. Universal Radio Hacker SDR Tutorial on 433 MHz radio plugs.
             <a href="https://www.youtube.com/watch?v=sbqMqb6FVMY">Universal Radio Hacker SDR Tutorial on 433 MHz radio plugs</a>.
             YouTube. Katsottu 5.11.2026.
         </li>
 
-        <li>Cornelius. 2022. Decode 433.92 MHz weather station data.
-            <a href="https://www.onetransistor.eu/2022/01/decode-433mhz-ask-signal.html">Decode 433.92 MHz weather station data</a>.
-            One Transistor. Luettu 5.11.2026.
+        <li>Karvinen, T. 2026. Verkkoon tunkeutuminen ja tiedustelu.
+            <a href="https://terokarvinen.com/verkkoon-tunkeutuminen-ja-tiedustelu/">Verkkoon tunkeutuminen ja tiedustelu</a>.
+            Luettu 5.11.2026.
+        </li>
+
+        <li>Merbanan. rtl_433: Program to decode radio transmissions from devices on the ISM bands.
+            <a href="https://github.com/merbanan/rtl_433">rtl_433 – GitHub</a>.
+            Luettu 6.11.2026.
         </li>
     </ul>
 
