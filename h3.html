@@ -48,13 +48,31 @@
         Hardware Model: VirtualBox
     </p>
 
-    <p>Seurasin <a href="https://github.com/merbanan/rtl_433">rtl_433:n Git-repositorion</a> ohjeita ja ajoin komennon <code>sudo apt install rtl-433</code>.</p>
+    <p>Seurasin <a href="https://github.com/merbanan/rtl_433">Merbananin Git-repositorion</a> ohjeita ja ajoin komennon <code>sudo apt install rtl-433</code>.</p>
 
     <p>Sen jälkeen ajoin <a href="https://terokarvinen.com/verkkoon-tunkeutuminen-ja-tiedustelu/">Teron ohjeiden</a> mukaisen testin: <code>./rtl_433</code>.</p>
 
     <p>Aluksi sain virheen, ettei tiedostoa tai hakemistoa ole. Tarkistin missä hakemistossa olen <code>pwd</code>-komennolla ja sain vastaukseksi kotihakemiston. Seuraavaksi tarkistin, mihin rtl_433 on asennettu: <code>which rtl_433</code> ja se löytyi <code>/usr/bin/rtl_433</code>-hakemistosta. Sen jälkeen kokeilin vain <code>rtl_433</code> ja se toimi.</p>
 
     <img src="rtl_433.png" alt="rtl_433 asennus" width="700">
+
+    <h2>c) Automaattinen analyysi</h2>
+
+    <p>Avasin tiedoston Teron ohjeiden mukaisesti komennolla: <code>rtl_433 -r ~/Lataukset/Converted_433.92M_2000k.cs8</code>.</p>
+
+    <p>Ensimmäiseksi kiinnitin huomioita tapahtumien aikaleimoihin. Useassa eri tapahtumassa oli sama aikaleima. Yhteensä uniikkeja aikaleimoja oli 4 kappaletta, mikä viittaisi siihen, että lähetyksiä oli oikeasti 4, mutta 3 eri dekooderia onnistui tulkitsemaan ne. Tätä tulkintaa tukee myös se, että signaaleissa esiintyvissä id ja house code -kentissä oli sama arvo: 8785315</p>
+
+    <p>Poimin dekoodatuista signaaleista seuraavat tunnisteet:</p>
+
+    <ul>
+        <li>id: todennäköisesti laitteen tunniste</li>
+        <li>house code: koodi, jonka avulla lähetin ja vastaanotin todennäköisesti tunnistavat toisensa</li>
+        <li>state: onko laite päällä vai pois päältä</li>
+        <li>command: kytketäänkö päälle tai pois päältä</li>
+        <li>group call: koskeeko yhtä vai usempaa laitetta</li>
+    </ul>
+
+    <img src="automaattinen_analyysi.png" alt="Automaattinen analyysi" width="700">
 
     <h2>Lähteet</h2>
 
