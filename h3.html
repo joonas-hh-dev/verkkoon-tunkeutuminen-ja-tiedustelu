@@ -110,15 +110,15 @@
 
     <h2>g) Bittistä</h2>
 
-    <p>Tässä tehtävässä joudun hakemaan apua <a href="https://github.com/nurminenkasper/Verkkoon-tunkeutuminen-ja-tiedustelu/blob/main/h3/h3-Aaltoja-harjaamassa.md">Kasperi Nurmisen kurssityöstä</a> viime vuodelta. ASK-modulaatio valikoitui oletukseksi, kun avasin tiedoston URH:issa. Zoomasin niin kauan, että sain yhden pulssin näkyviin. Valittuani sen, kuvaajan alla näkyi pulssin kestona 521 μs, mikä on aika lähellä Samples/Symbol-kentän arvoa 500.</p>
+    <p>Tässä tehtävässä jouduin hakemaan apua <a href="https://github.com/nurminenkasper/Verkkoon-tunkeutuminen-ja-tiedustelu/blob/main/h3/h3-Aaltoja-harjaamassa.md">Kasperi Nurmisen kurssityöstä</a> viime vuodelta. ASK-modulaatio valikoitui oletukseksi, kun avasin tiedoston URH:issa. Zoomasin niin kauan, että sain yhden pulssin näkyviin. Valittuani sen, kuvaajan alla näkyi 521 otosta, mikä on aika lähellä Samples/Symbol-kentän arvoa 500.</p>
+    
+    <img src="bittista.png" alt="Tauon kesto" width="700">
+    
+    <p>Seuraavaksi muutin alalaidan Signal view -kentän arvoksi Demodulated. Yksi pulssi sisälsi edelleen 521 otosta ja sen kesto oli 521 μs. Alla olevasta kuvasta kuvasta näkyy myös, että yksi pulssi vastaa yhtä raakabittiä. Valitsin vielä tauon ja tarkistin sen otosten määrän: 517 eli melko lähellä Samples/Symbol-kentän arvoa myös.</p>
 
-    <img src="bittista1.png" alt="Pulssin kesto" width="700">
+    <img src="bittista2.png" alt="Tauon kesto" width="700">
 
-    <p>Seuraavaksi muutin alalaidan Signal view -kentän arvoksi Demodulated. Yhden pulssin kesto oli edelleen 521 μs. Valitsin vielä tauon ja tarkistin sen pituuden: 517 μs eli melko lähellä Samples/Symbol-kentän arvoa myös.</p>
-
-    <img src="bittista2.png" alt="Pulssin kesto" width="700">
-
-    <p>Oikea modulaatio vaikuttaisi siis olevan ASK ja yhden raakabitin pituus ajassa 521 μs.Vertailun vuoksi silmänräpäys kestää 300-400 μs.</p>
+    <p>Oikea modulaatio vaikuttaisi siis olevan ASK ja yhden raakabitin pituus ajassa 521 μs.Vertailun vuoksi <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4043155/">tutkimuksen</a> perusteella yksi silmänräpäys kestää noin 572 ms. Silmänräpäyksen aikana ehtisi siis lähettää arviolta 1 144 bittiä tietoa (572 / 0,5).</p>
     
     <h2>Lähteet</h2>
 
@@ -127,7 +127,6 @@
             <a href="https://www.onetransistor.eu/2022/01/decode-433mhz-ask-signal.html">Decode 433.92 MHz weather station data</a>.
             One Transistor. Luettu 5.11.2026.
         </li>
-
         
         <li>Hubacek. 2019. Universal Radio Hacker SDR Tutorial on 433 MHz radio plugs.
             <a href="https://www.youtube.com/watch?v=sbqMqb6FVMY">Universal Radio Hacker SDR Tutorial on 433 MHz radio plugs</a>.
@@ -137,6 +136,11 @@
         <li>Karvinen, T. 2026. Verkkoon tunkeutuminen ja tiedustelu.
             <a href="https://terokarvinen.com/verkkoon-tunkeutuminen-ja-tiedustelu/">Verkkoon tunkeutuminen ja tiedustelu</a>.
             Luettu 5.11.2026.
+        </li>
+
+        <li>Kwon ym. 2013. High-speed camera characterization of voluntary eye blinking kinematics.
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4043155/">Tutkimusartikkeli</a>.
+            Luettu 8.11.2026.
         </li>
 
         <li>Merbanan. rtl_433: Program to decode radio transmissions from devices on the ISM bands.
