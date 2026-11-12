@@ -11,9 +11,9 @@
 
     <p>Myös puhelimeeni lisätty maksukortti käyttää NFC:tä. Maksaminen edellyttää kuitenkin aina biometristä vahvistamista soremnjäljellä, joten luvattoman veloittamisen riski on pieni.</p>
     
-    <p>b) APDU-komennot ovat viestejä, joiden avulla lukulaitteet kommunikoivat älykorttien, SIM-korttien ja NFC-laitteiden kanssa.</p>
+    <p>b) <a href="https://en.wikipedia.org/wiki/Smart_card_application_protocol_data_unit">APDU-komennot</a> ovat viestejä, joiden avulla lukulaitteet kommunikoivat älykorttien, SIM-korttien ja NFC-laitteiden kanssa.</p>
 
-    <p>Kysyin Chat GPT:ktä komentojen rakenteesta ja sain seuraavat tiedot:</p>
+    <p>Kysyin <a href="https://chatgpt.com/s/t_6af6238187a88191a3c5d935786d0f13">Chat GPT:ktä</a> komentojen rakenteesta ja sain seuraavat tiedot:</p>
 
     <table>
         <thead>
@@ -56,10 +56,47 @@
 
     <p>Viestin otsikko muodustuu neljästä ensimmäisestä kentästä ja loput ovat valinnaisia. Kun laite vastaa lukijan pyyntöön, se lähettää mahdollisen datan lisäksi kaksi tilatavua (SW1 ja SW2), jotka kertovat pyynnön onnistumisesta.</p>
     
-    <h2>Lähteet</h2>
+    <p>c) Löysin <a href="https://www.theregister.com/security/2026/08/18/expired-credit-cards-revived-by-researchers-to-make-unauthorized-payments/5289229">uutisen NFC-hakkeroinnista</a>, jossa tutkijat onnistuivat maksamaan vanhentuneilla maksukorteilla. Hyökkäys perustui siihen, ettei kaikkia maksukortin ja maksupäätteen välillä välitettäviä tietoja ollut suojattu kryptografisesti.</p>
 
+    <p>Visa-korteissa maksupääte tarkistaa kortin voimassaolopäivän tietyn kentän perusteella, mutta kortin myöntäjä käyttää auktorisoinnissa eri tietokenttää. Näitä tietoja ei ollut sidottu kryptografisesti toisiinsa, mikä mahdollisti niiden ristiriitaisen käsittelyn.</p>
+
+    <p>Kortti lähettää maksupäätteelle voimassaolopäivän, mutta kyseinen tieto ei ollut mukana kortin digitaalisesti allekirjoitetuissa tiedoissa. NFC-proxyn avulla tutkijat pystyivät muuttamaan maksupäätteelle välittyvää voimassaolopäivää niin, että vanhentunut kortti näytti edelleen voimassa olevalta.</p>
+    
+
+    <h2>Lähteet</h2>
     <ul>
+        <li>Claburn, Thomas. 2026. Expired credit cards revived by researchers to make unauthorized payments.
+            The Register, 18.8.2026.
+            <a href="https://www.theregister.com/security/2026/08/18/expired-credit-cards-revived-by-researchers-to-make-unauthorized-payments/5289229">Artikkeli</a>.
+            Luettu 12.11.2026.
+        </li>
+    
+        <li>Karvinen, Tero. Verkkoon tunkeutuminen ja tiedustelu.
+            <a href="https://terokarvinen.com/verkkoon-tunkeutuminen-ja-tiedustelu/">Kurssisivu</a>.
+            Luettu 12.11.2026.
+        </li>
+    
+        <li>NFCore. Do RFID Blocking Wallets Work?
+            <a href="https://nfcore.app/guides/do-rfid-blocking-wallets-work">Artikkeli</a>.
+            Luettu 12.11.2026.
+        </li>
+    
+        <li>OpenAI. 2026. ChatGPT-keskustelu.
+            <a href="https://chatgpt.com/s/t_6af6238187a88191a3c5d935786d0f13">ChatGPT</a>.
+            Luettu 12.11.2026.
+        </li>
+    
+        <li>Wikipedia. Near-field communication.
+            <a href="https://fi.wikipedia.org/wiki/Near-field_communication">Wikipedia</a>.
+            Luettu 12.11.2026.
+        </li>
+    
+        <li>Wikipedia. Smart card application protocol data unit.
+            <a href="https://en.wikipedia.org/wiki/Smart_card_application_protocol_data_unit">Wikipedia</a>.
+            Luettu 12.11.2026.
+        </li>
     </ul>
+
 
     <p>
         <a href="index.html">Takaisin etusivulle</a>
