@@ -11,6 +11,51 @@
 
     <p>Myös puhelimeeni lisätty maksukortti käyttää NFC:tä. Maksaminen edellyttää kuitenkin aina biometristä vahvistamista soremnjäljellä, joten luvattoman veloittamisen riski on pieni.</p>
     
+    <p>b) APDU-komennot ovat viestejä, joiden avulla lukulaitteet kommunikoivat älykorttien, SIM-korttien ja NFC-laitteiden kanssa.</p>
+
+    <p>Kysyin Chat GPT:ktä komentojen rakenteesta ja sain seuraavat tiedot:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Kenttä</th>
+                <th>Merkitys</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>CLA</td>
+                <td>Komentoluokka</td>
+            </tr>
+            <tr>
+                <td>INS</td>
+                <td>Suoritettava komento</td>
+            </tr>
+            <tr>
+                <td>P1</td>
+                <td>Parametri 1</td>
+            </tr>
+            <tr>
+                <td>P2</td>
+                <td>Parametri 2</td>
+            </tr>
+            <tr>
+                <td>Lc</td>
+                <td>Lähetettävän datan pituus</td>
+            </tr>
+            <tr>
+                <td>Data</td>
+                <td>Komennon mukana lähetettävä data</td>
+            </tr>
+            <tr>
+                <td>Le</td>
+                <td>Odotettavan vastausdatan enimmäispituus</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Viestin otsikko muodustuu neljästä ensimmäisestä kentästä ja loput ovat valinnaisia. Kun laite vastaa lukijan pyyntöön, se lähettää mahdollisen datan lisäksi kaksi tilatavua (SW1 ja SW2), jotka kertovat pyynnön onnistumisesta.</p>
+    
     <h2>Lähteet</h2>
 
     <ul>
