@@ -46,6 +46,38 @@
     <p>Avasin yhden paketin ARP-tabin ja näin, että Sender MAC address oli 00:00:00:00:00:03, mutta Sender IP address oli 10.0.0.2. Wireshark-analyysi vahvisti siis, että ARP-myrkytys oli onnistunut ja h3 esiintyi verkossa h2-koneena.</p>
     
     <img src="labra3.png" alt="Wireshark-analyysi ARP-paketeista" width="700">
+
+    <h3>TCP Session Hijacking</h3>
+    
+    <p>Aloitin harjoituksen siirtymällä Network-Security-Lab-hakemistoon, jossa sijaitsevat harjoituksen Python-tiedostot. Harjoituksen tarkoituksena oli tutkia TCP Session Hijacking -hyökkäystä eli olemassa olevan TCP-yhteyden kaappaamista.</p>
+    
+    <p>Käynnistin harjoituksen mininetissä komennolla: <code>sudo python3 hub_topo.py</code>. Verkkoon muodostui neljä tietokonetta ja kytkin. Tarkistin verkon toiminnan komennolla: <code>pingall</code> ja kaikki koneet saivat yhteyden toisiinsa.</p>
+    
+    <p>Avasin harjoituksessa tarvittavat terminaalit komen­nolla: <code>xterm h1 h2 h3</code>. Harjoituksessa h1 toimi TCP-palvelimena, h2 asiakkaana ja h3 verkkoliikenteen tarkkailijana.</p>
+    
+    <p>Seuraavaksi käynnistin h1-koneella TCP-palvelimen komennolla: <code>python3 tcp_server.py</code>. Palvelin jäi odottamaan yhteyksiä porttiin 12345.</p>
+    
+    <p>Siirryin h2-koneelle ja käynnistin TCP-asiakkaan komennolla: <code>python3 tcp_client.py</code>. Asiakas muodosti yhteyden h1-koneeseen, lähetti viestin "Hello from Host 2" ja vastaanotti h1:n vastauksen "Hello from Host 1". Näin varmistin, että normaali TCP-yhteys toimi.</p>
+    
+    <img src="tcp1.png" alt="TCP-asiakkaan ja palvelimen välinen yhteys" width="700">
+    
+    <p>Tämän jälkeen käynnistin h3-koneella TCP-liikenteen tarkkailun komennolla: <code>python3 sniff_tcp_session.py</code>. Ohjelma tarkkaili verkkoliikennettä ja näytti TCP-pakettien lähde- ja kohdeosoitteet sekä SEQ- ja ACK-numerot.</p>
+    
+    <p>Muodostin h2-koneelta uuden TCP-yhteyden h1-koneeseen. H3 havaitsi yhteyden liikenteen, minkä ansiosta pystyin tarkastelemaan TCP-istunnon tietoja.</p>
+    
+    <img src="tcp2.png" alt="H3-koneella havaittu TCP-liikenne" width="700">
+    
+    <p>Jatkoin tutkimusta avaamalla tallennetun liikenteen Wiresharkissa. Tarkastelin TCP-paketteja ja niiden järjestys- ja kuittausnumeroita (Sequence Number ja Acknowledgment Number). Huomasin myös, että TCP-paketin sisältämän datan pituus oli 17 tavua ja sitä seurannut kuittausnumero oli 18. Tämä havainnollisti, miten TCP pitää kirjaa lähetetystä datasta ja sen vastaanottamisesta.</p>
+    
+    <img src="tcp3.png" alt="TCP-paketin tarkastelu Wiresharkissa" width="700">
+    
+    <p>Seuraavaksi tutkin tiedostoa <code>tcp_hijack.py</code>, joka sisältää TCP-istunnon kaappaamiseen tarkoitetun ohjelman. Ohjelman tarkoituksena on lähettää väärennetty TCP-paketti, jossa hyökkääjä esiintyy alkuperäisen yhteyden toisena osapuolena.</p>
+    
+    <p>Suoritin h3-koneella ohjelman komennolla: <code>python3 tcp_hijack.py</code>. Ohjelma ilmoitti lähettäneensä yhden väärennetyn TCP-paketin. H1-koneen palvelimessa ei kuitenkaan näkynyt väärennetyn viestin vastaanottamista.</p>
+    
+    <img src="tcp4.png" alt="TCP-hijack-ohjelman suoritus" width="700">
+    
+    <p>TCP-istunnon kaappaus ei siis onnistunut tässä testissä. Yksi mahdollinen syy oli se, että aiempi TCP-yhteys oli jo sulkeutunut. Lisäksi ohjelmassa valmiiksi määritellyt portti- ja SEQ/ACK-numerot eivät välttämättä vastanneet tarkkailemaani TCP-yhteyttä.</p>
   
     <h2>Lähteet</h2>
     <ul>
