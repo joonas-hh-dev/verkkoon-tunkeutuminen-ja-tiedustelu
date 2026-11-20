@@ -33,7 +33,7 @@
     
     <p>Yhteyden muodostamisen yhteydessä SSH ilmoitti, ettei palvelimen avainta ollut aiemmin tunnistettu ja kysyi, haluanko hyväksyä uuden avaimen. Vastasin <code>yes</code>. ARP-myrkytyksen seurauksena yhteys ohjautui h3-koneessa toimivaan SSHesame-palveluun alkuperäisen h2-palvelimen sijasta.</p>
     
-    <p>Tarkistin SSHesamen lokit komennolla <code>h3 ps -ef | grep sshesame</code> ja havaitsin tapahtumat Client connected, Password authentication accepted ja SSH connection established. Näiden perusteella pystyin toteamaan, että SSHesame vastaanotti yhteyden ja kirjautumisyrityksen onnistuneesti.</p>
+    <p>Tarkistin, että SSHesame oli käynnissä komennolla <code>h3 ps -ef | grep sshesame</code> ja havaitsin tapahtumat Client connected, Password authentication accepted ja SSH connection established. Näiden perusteella pystyin toteamaan, että SSHesame vastaanotti yhteyden ja kirjautumisyrityksen onnistuneesti.</p>
     
     <img src="labra2.png" alt="SSHesamen lokit" width="700">
     
