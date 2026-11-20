@@ -7,7 +7,45 @@
 <body>
     <h1>5 - Labratakki</h1>
     
+    <h2>a) Aja tunnilla esitetty ARP hyökkäys ja tutki, miten se toimii.</h2>
     
+    <p>Aluksi käynnistin Larin ohjeiden mukaisesti verkko-ohjaimen: <code>ryu-manager ryu.app.simple_switch_13 &</code> ja loin kolme tietokonetta ja kytkimen komennolla: <code>sudo mn --topo single,3 --mac --switch ovsk --controller remote</code>. Tarkistin verkon toiminnan komennolla: <code>pingall</code> ja kaikki vaikutti olevan kunnossa.</p>
+    
+    <p>Tämän jälkeen tarkistin h1:n ARP-taulun komennolla: <code>h1 arp -n</code>.</p>
+    
+    <p>Otin h3-koneella IP-pakettien välityksen käyttöön komennolla: <code>h3 sysctl -w net.ipv4.ip_forward=1</code>.</p>
+    
+    <p>Seuraavaksi lisäsin iptables-säännön, jolla SSH-liikenne ohjataan h3-koneen porttiin 22: <code>h3 iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 22</code>.</p>
+    
+    <p>Käynnistin verkkoliikenteen tallennuksen tcpdump-ohjelmalla: <code>h3 tcpdump -i h3-eth0 -w arp-p2.pcap &</code>. Tallennuksen tarkoituksena oli tutkia verkkoliikennettä myöhemmin Wiresharkilla.</p>
+    
+    <p>Seuraavaksi käynnistin SSHesame-palvelun h3-koneen portissa 22: <code>h3 sshesame -port 22 -listen_address 0.0.0.0 &</code>.</p>
+    
+    <p>Käynnistin ARP-myrkytysohjelman komennolla: <code>h3 python3 ./arp_poison.py > /tmp/arp_poison.log 2>&1 &</code>.</p>
+    
+    <p>Tämän jälkeen tarkistin uudelleen h1:n ARP-taulun komennolla: <code>h1 arp -n</code>. Huomasin, että sekä h2:n että h3:n IP-osoitteisiin liittyi nyt sama MAC-osoite (00:00:00:00:00:03). Tämä osoitti, että ARP-myrkytys oli onnistunut.</p>
+    
+    <img src="labra1.png" alt="ARP-taulu hyökkäyksen jälkeen" width="700">
+    
+    <p>Jatkoin harjoitusta käynnistämällä h2-koneen SSH-palvelimen komennolla: <code>h2 /usr/sbin/sshd</code>.</p>
+    
+    <p>Poistin h1-koneelta h2-koneen vanhan SSH-avaimen komennolla: <code>h1 ssh-keygen -R h2</code> ja muodostin uuden SSH-yhteyden h2-koneeseen komennolla: <code>h1 ssh h2</code>.</p>
+    
+    <p>Yhteyden muodostamisen yhteydessä SSH ilmoitti, ettei palvelimen avainta ollut aiemmin tunnistettu ja kysyi, haluanko hyväksyä uuden avaimen. Vastasin <code>yes</code>. ARP-myrkytyksen seurauksena yhteys ohjautui h3-koneessa toimivaan SSHesame-palveluun alkuperäisen h2-palvelimen sijasta.</p>
+    
+    <p>Tarkistin SSHesamen lokit komennolla <code>h3 ps -ef | grep sshesame</code> ja havaitsin tapahtumat Client connected, Password authentication accepted ja SSH connection established. Näiden perusteella pystyin toteamaan, että SSHesame vastaanotti yhteyden ja kirjautumisyrityksen onnistuneesti.</p>
+    
+    <img src="labra2.png" alt="SSHesamen lokit" width="700">
+    
+    <p>Lopuksi pysäytin tcpdump-tallennuksen komennolla: <code>h3 pkill tcpdump</code> ja tarkistin tallennetun tiedoston komennolla: <code>h3 ls -lh /home/mininet/arp-p2.pcap</code>. Tallenne oli noin 80 kilotavun kokoinen.</p>
+    
+    <p>Siirsin tallennetiedoston Windows-koneelle PowerShellin scp-komennolla: <code>scp mininet@192.168.211.128:/home/mininet/arp-p2.pcap "$env:USERPROFILE\Downloads\"</code>.</p>
+    
+    <p>Avasin tallenteen Windowsin Wiresharkissa ja selailin ARP-paketteja.</p>
+
+    <p>Avasin yhden paketin ARP-tabin ja näin, että Sender MAC address oli 00:00:00:00:00:03, mutta Sender IP address oli 10.0.0.2. Wireshark-analyysi vahvisti siis, että ARP-myrkytys oli onnistunut ja h3 esiintyi verkossa h2-koneena.</p>
+    
+    <img src="labra3.png" alt="Wireshark-analyysi ARP-paketeista" width="700">
   
     <h2>Lähteet</h2>
     <ul>
