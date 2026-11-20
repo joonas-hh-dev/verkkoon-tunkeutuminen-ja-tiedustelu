@@ -47,9 +47,31 @@
     
     <img src="labra3.png" alt="Wireshark-analyysi ARP-paketeista" width="700">
 
-    <h3>TCP Session Hijacking</h3>
+    <h3>ICMP Spoofing</h3>
     
-    <p>Aloitin harjoituksen siirtymällä Network-Security-Lab-hakemistoon, jossa sijaitsevat harjoituksen Python-tiedostot. Harjoituksen tarkoituksena oli tutkia TCP Session Hijacking -hyökkäystä eli olemassa olevan TCP-yhteyden kaappaamista.</p>
+    <p>Käynnistin Mininet-verkon komennolla: <code>sudo python3 hub_topo.py</code>. Verkkoon muodostui neljä tietokonetta (h1, h2, h3 ja h4) sekä kytkin. Tarkistin verkon toiminnan komennolla <code>pingall</code>, ja kaikki koneet saivat yhteyden toisiinsa.</p>
+    
+    <p>Avasin tarvittavat terminaalit komennolla: <code>xterm h1 h2 h3</code>.</p>
+    
+    <p>Tämän jälkeen tutkin ICMP-liikennettä h1-koneella käynnistämällä tarkkailuohjelman komennolla: <code>python3 sniff_icmp.py</code>. Lähetin h2-koneelta kolme ping-pyyntöä h1-koneelle komennolla: <code>ping -c 3 10.0.0.1</code>.</p>
+    
+    <p>Seuraavaksi tutkin tiedostoa <code>spoof_icmp.py</code>, joka käyttää Scapy-kirjastoa ICMP-pakettien käsittelyyn. Skripti tunnistaa ICMP Echo Request -paketit ja muodostaa niiden perusteella väärennetyn Echo Reply -vastauksen.</p>
+    
+    <img src="icmp1.png" alt="spoof_icmp.py-skriptin sisältö" width="700">
+    
+    <p>Käynnistin ICMP-huijausskriptin h2-koneella komennolla: <code>python3 spoof_icmp.py</code>. Tämän jälkeen lähetin h3-koneelta kolme ping-pyyntöä h1-koneelle. Skriptin tulosteessa näkyi kolme kertaa ilmoitus "Sent 1 packets.", mikä osoitti, että skripti lähetti väärennettyjä paketteja.</p>
+    
+    <img src="icmp2.png" alt="ICMP-huijausskriptin suoritus" width="700">
+    
+    <p>Tämän jälkeen avasin Wiresharkin h2-koneella ja valitsin tarkkailtavaksi verkkoliitännäksi <code>h2-eth0</code>. Rajasin ICMP Echo Reply -paketit seuraavalla näyttösuodattimella: <code>icmp.type == 0 && eth.src == ae:09:be:40:71:53</code>.</p>
+    
+    <p>Wiresharkista löytyi kolme ICMP Echo Reply -pakettia. Pakettien IP-lähdeosoitteena näkyi 10.0.0.1 eli h1-koneen osoite, mutta Ethernet-kehyksen lähdeosoite oli ae:09:be:40:71:53 eli h2-koneen MAC-osoite.</p>
+    
+    <p>Tämä osoitti, että h2 lähetti ICMP-vastauksia käyttäen h1-koneen IP-osoitetta lähdeosoitteena. Väärennetyt paketit pystyttiin tunnistamaan vertailemalla niiden IP- ja MAC-osoitteita.</p>
+    
+    <img src="icmp3.png" alt="Wiresharkin näkymä väärennetyistä ICMP-vastauksista" width="700">
+    
+    <h3>TCP Session Hijacking</h3>
     
     <p>Käynnistin harjoituksen mininetissä komennolla: <code>sudo python3 hub_topo.py</code>. Verkkoon muodostui neljä tietokonetta ja kytkin. Tarkistin verkon toiminnan komennolla: <code>pingall</code> ja kaikki koneet saivat yhteyden toisiinsa.</p>
     
