@@ -6,6 +6,8 @@
 </head>
 <body>
     <h1>5 - Labratakki</h1>
+
+    <p>Tehtävissä on käytetty apuna ChatGPT:tä.</p>
     
     <h2>a) Aja tunnilla esitetty ARP hyökkäys ja tutki, miten se toimii.</h2>
     
@@ -23,7 +25,7 @@
     
     <p><code>sysctl -w net.ipv4.ip_forward=1</code></p>
     
-    <p>Tämän jälkeen lisäsin opettajan ohjeen mukaisen iptables-säännön, joka ohjaa SSH-liikenteen porttiin 22:</p>
+    <p>Tämän jälkeen lisäsin ohjeen mukaisen iptables-säännön, joka ohjaa SSH-liikenteen porttiin 22:</p>
     
     <p><code>iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 22</code></p>
     
@@ -31,7 +33,7 @@
     
     <p><code>tcpdump -i h3-eth0 -w arp-p.pcap &amp;</code></p>
     
-    <p>Tämän jälkeen käynnistin Wiresharkin ja valitsin tarkasteltavaksi h1-eth0-verkkoliikenteen opettajan ohjeen mukaisesti.</p>
+    <p>Tämän jälkeen käynnistin Wiresharkin ja valitsin tarkasteltavaksi h1-eth0-verkkoliikenteen ohjeen mukaisesti.</p>
     
     <img src="arp3.png" alt="IP-forwardingin käyttöönotto ja verkkokomennot">
     
@@ -78,6 +80,8 @@
     <h2>b) Samassa hakemistossa on myös ICMP Spoofing ja TCP Session Hijacking. Aja molemmat labrat läpi ja kerro, miten molemmat tekniikat toimivat.</h2>
 
     <h3>ICMP Spoofing</h3>
+
+    <p><a href="https://www.internetsociety.org/resources/doc/2015/addressing-the-challenge-of-ip-spoofing/">ICMP Spoofingissa</a> hyökkääjä väärentää ICMP-paketin lähdeosoitteen niin, että paketti näyttää tulevan toiselta koneelta. Näin vastaanottaja voi luulla saavansa vastauksen alkuperäiseltä kohdekoneelta, vaikka paketin on todellisuudessa lähettänyt hyökkääjä.</p>
     
     <p>Käynnistin Mininet-verkon komennolla: <code>sudo python3 hub_topo.py</code>. Verkkoon muodostui neljä tietokonetta (h1, h2, h3 ja h4) sekä kytkin. Tarkistin verkon toiminnan komennolla <code>pingall</code>, ja kaikki koneet saivat yhteyden toisiinsa.</p>
     
@@ -97,11 +101,13 @@
     
     <p>Wiresharkista löytyi kolme ICMP Echo Reply -pakettia. Pakettien IP-lähdeosoitteena näkyi 10.0.0.1 eli h1-koneen osoite, mutta Ethernet-kehyksen lähdeosoite oli ae:09:be:40:71:53 eli h2-koneen MAC-osoite.</p>
     
-    <p>Tämä osoitti, että h2 lähetti ICMP-vastauksia käyttäen h1-koneen IP-osoitetta lähdeosoitteena. Väärennetyt paketit pystyttiin tunnistamaan vertailemalla niiden IP- ja MAC-osoitteita.</p>
+    <p>Tämä osoitti, että h2 lähetti ICMP-vastauksia käyttäen h1-koneen IP-osoitetta lähdeosoitteena. Väärennetyt paketit pystyi tunnistamaan vertailemalla niiden IP- ja MAC-osoitteita.</p>
     
     <img src="icmp3.png" alt="Wiresharkin näkymä väärennetyistä ICMP-vastauksista" width="700">
     
     <h3>TCP Session Hijacking</h3>
+    
+    <p><a href="https://encyclopedia.kaspersky.com/glossary/tcp-ip-hijacking/">TCP Session Hijackingissa</a> hyökkääjä pyrkii kaappaamaan olemassa olevan TCP-yhteyden esiintymällä sen toisena osapuolena. Tämä edellyttää, että hyökkääjä tuntee yhteyden tiedot, kuten lähde- ja kohdeportit sekä oikeat järjestys- ja kuittausnumerot (SEQ ja ACK). Hyökkääjä muodostaa näiden tietojen perusteella väärennetyn TCP-paketin, jonka vastaanottaja voi hyväksyä osaksi olemassa olevaa yhteyttä.</p>
     
     <p>Käynnistin harjoituksen mininetissä komennolla: <code>sudo python3 hub_topo.py</code>. Verkkoon muodostui neljä tietokonetta ja kytkin. Tarkistin verkon toiminnan komennolla: <code>pingall</code> ja kaikki koneet saivat yhteyden toisiinsa.</p>
     
@@ -119,7 +125,11 @@
     
     <img src="tcp2.png" alt="H3-koneella havaittu TCP-liikenne" width="700">
     
-    <p>Jatkoin tutkimusta avaamalla tallennetun liikenteen Wiresharkissa. Tarkastelin TCP-paketteja ja niiden järjestys- ja kuittausnumeroita (Sequence Number ja Acknowledgment Number). Huomasin myös, että TCP-paketin sisältämän datan pituus oli 17 tavua ja sitä seurannut kuittausnumero oli 18. Tämä havainnollisti, miten TCP pitää kirjaa lähetetystä datasta ja sen vastaanottamisesta.</p>
+    <p>Jatkoin tutkimusta avaamalla tallennetun verkkoliikenteen Wiresharkissa. Tarkastelin erityisesti TCP-pakettien järjestysnumeroita (Sequence Number) ja kuittausnumeroita (Acknowledgment Number). Näiden avulla TCP seuraa, missä järjestyksessä data lähetetään ja kuinka paljon vastaanottaja on saanut sitä.</p>
+    
+    <p>Huomasin, että yhdessä TCP-paketissa lähetetyn datan pituus oli 17 tavua. Tätä seuranneessa kuittauksessa (ACK) kuittausnumero oli 18. Tämä tarkoittaa, että vastaanottaja oli saanut tavut numeroon 17 asti ja odotti seuraavaksi tavua numero 18. TCP käyttää kuittausnumeroita ilmoittaakseen lähettäjälle, kuinka pitkälle dataa on vastaanotettu onnistuneesti.</p>
+    
+    <p>Havainto havainnollisti, kuinka TCP ylläpitää yhteyden tilaa ja seuraa tiedonsiirron etenemistä. Järjestysnumeroiden ja kuittausnumeroiden tunteminen on tärkeää myös TCP Session Hijacking -hyökkäyksen ymmärtämisessä, sillä hyökkääjän täytyy pystyä jäljittelemään yhteyden odotettua tilaa ja käyttämään oikeita järjestysnumeroita, jotta väärennetty paketti voidaan hyväksyä osaksi olemassa olevaa TCP-yhteyttä.</p>
     
     <img src="tcp3.png" alt="TCP-paketin tarkastelu Wiresharkissa" width="700">
     
@@ -129,9 +139,9 @@
     
     <p>TCP-istunnon kaappaus ei siis onnistunut tässä testissä. Yksi mahdollinen syy oli se, että aiempi TCP-yhteys oli jo sulkeutunut. Lisäksi ohjelmassa valmiiksi määritellyt portti- ja SEQ/ACK-numerot eivät välttämättä vastanneet tarkkailemaani TCP-yhteyttä.</p>
 
-    <h2>c)</h2>
+    <h2>c) Hakemistossa 02-SDN-DDos_Simulation tryout-kansiossa on työkalut, jotta voit ajaa TCP SYN-Flood-hyökkäyksen turvallisesti.</h2>
 
-    <p>TCP SYN-Flood on palvelunestohyökkäys (DoS), jossa kohdepalvelimelle lähetetään suuri määrä TCP-yhteyden muodostamiseen liittyviä SYN-paketteja.  SYN-Flood-hyökkäyksessä hyökkääjä lähettää suuren määrän SYN-paketteja, mutta ei viimeistele yhteyden muodostamista normaalilla ACK-vastauksella. Tällöin palvelimelle voi jäädä useita keskeneräisiä yhteyspyyntöjä, jotka kuluttavat sen resursseja. Jos keskeneräisiä yhteyksiä kertyy riittävästi, palvelimen kyky käsitellä uusia yhteyspyyntöjä voi heikentyä tai palvelu voi muuttua tilapäisesti saavuttamattomaksi.</p>
+    <p><a href="https://www.cloudflare.com/learning/ddos/syn-flood-ddos-attack/">TCP SYN-Flood on palvelunestohyökkäys (DoS)</a>, jossa kohdepalvelimelle lähetetään suuri määrä TCP-yhteyden muodostamiseen liittyviä SYN-paketteja.  SYN-Flood-hyökkäyksessä hyökkääjä lähettää suuren määrän SYN-paketteja, mutta ei viimeistele yhteyden muodostamista normaalilla ACK-vastauksella. Tällöin palvelimelle voi jäädä useita keskeneräisiä yhteyspyyntöjä, jotka kuluttavat sen resursseja. Jos keskeneräisiä yhteyksiä kertyy riittävästi, palvelimen kyky käsitellä uusia yhteyspyyntöjä voi heikentyä tai palvelu voi muuttua tilapäisesti saavuttamattomaksi.</p>
     
     <p>Ennen harjoituksen aloittamista vaihdoin VMware Workstationin verkkosovittimen Bridged-tilasta Host-only-tilaan, jotta harjoitusympäristö olisi eristetty fyysisestä lähiverkosta.</p>
     
@@ -174,6 +184,34 @@
     
     <h2>Lähteet</h2>
     <ul>
+        <li>
+            Cloudflare. (ei pvm.). SYN flood DDoS attack.
+            <a href="https://www.cloudflare.com/learning/ddos/syn-flood-ddos-attack/">https://www.cloudflare.com/learning/ddos/syn-flood-ddos-attack/</a>
+        </li>
+        <li>
+            Haaga-Helia ammattikorkeakoulu. (ei pvm.). 03-mininet [PDF-opetusmateriaali]. Moodle.
+            <a href="https://hhmoodle.haaga-helia.fi/pluginfile.php/5055842/mod_resource/content/1/03-mininet.pdf">03-mininet.pdf</a>
+        </li>
+        <li>
+            Internet Society. (2015). Addressing the challenge of IP spoofing.
+            <a href="https://www.internetsociety.org/resources/doc/2015/addressing-the-challenge-of-ip-spoofing/">https://www.internetsociety.org/resources/doc/2015/addressing-the-challenge-of-ip-spoofing/</a>
+        </li>
+        <li>
+            Karvinen, T. (ei pvm.). Verkkoon tunkeutuminen ja tiedustelu.
+            <a href="https://terokarvinen.com/verkkoon-tunkeutuminen-ja-tiedustelu/">https://terokarvinen.com/verkkoon-tunkeutuminen-ja-tiedustelu/</a>
+        </li>
+        <li>
+            Kaspersky. (ei pvm.). TCP/IP hijacking. Kaspersky IT Encyclopedia.
+            <a href="https://encyclopedia.kaspersky.com/glossary/tcp-ip-hijacking/">https://encyclopedia.kaspersky.com/glossary/tcp-ip-hijacking/</a>
+        </li>
+        <li>
+            santhisenan. (ei pvm.). SDN_DDoS_Simulation. GitHub.
+            <a href="https://github.com/santhisenan/SDN_DDoS_Simulation">https://github.com/santhisenan/SDN_DDoS_Simulation</a>
+        </li>
+        <li>
+            ssam246. (ei pvm.). Network-Security-Lab. GitHub.
+            <a href="https://github.com/ssam246/Network-Security-Lab">https://github.com/ssam246/Network-Security-Lab</a>
+        </li>
     </ul>
 
 
