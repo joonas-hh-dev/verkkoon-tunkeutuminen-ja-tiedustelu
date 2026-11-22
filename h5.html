@@ -128,7 +128,50 @@
     <p>Suoritin h3-koneella ohjelman komennolla: <code>python3 tcp_hijack.py</code>. Ohjelma ilmoitti lähettäneensä yhden väärennetyn TCP-paketin. H1-koneen palvelimessa ei kuitenkaan näkynyt väärennetyn viestin vastaanottamista.</p>
     
     <p>TCP-istunnon kaappaus ei siis onnistunut tässä testissä. Yksi mahdollinen syy oli se, että aiempi TCP-yhteys oli jo sulkeutunut. Lisäksi ohjelmassa valmiiksi määritellyt portti- ja SEQ/ACK-numerot eivät välttämättä vastanneet tarkkailemaani TCP-yhteyttä.</p>
-  
+
+    <h2>c)</h2>
+
+    <p>TCP SYN-Flood on palvelunestohyökkäys (DoS), jossa kohdepalvelimelle lähetetään suuri määrä TCP-yhteyden muodostamiseen liittyviä SYN-paketteja.  SYN-Flood-hyökkäyksessä hyökkääjä lähettää suuren määrän SYN-paketteja, mutta ei viimeistele yhteyden muodostamista normaalilla ACK-vastauksella. Tällöin palvelimelle voi jäädä useita keskeneräisiä yhteyspyyntöjä, jotka kuluttavat sen resursseja. Jos keskeneräisiä yhteyksiä kertyy riittävästi, palvelimen kyky käsitellä uusia yhteyspyyntöjä voi heikentyä tai palvelu voi muuttua tilapäisesti saavuttamattomaksi.</p>
+    
+    <p>Ennen harjoituksen aloittamista vaihdoin VMware Workstationin verkkosovittimen Bridged-tilasta Host-only-tilaan, jotta harjoitusympäristö olisi eristetty fyysisestä lähiverkosta.</p>
+    
+    <p>Tutustuin ensin tree_topology.py-tiedoston sisältöön ja muokkasin simulaation parametreja, jotta testistä saatiin lyhyempi ja hallitumpi. Tein seuraavat muutokset:</p>
+    
+    <ul>
+        <li><code>episode_count = 100 → episode_count = 1</code>: Pienensin testikierrosten määrän sadasta yhteen, jotta simulaatio suoritettiin vain kerran.</li>
+    
+        <li><code>episode_length = 10 → episode_length = 2</code>: Lyhensin yhden testikierroksen keston kymmenestä sekunnista kahteen sekuntiin.</li>
+    
+        <li><code>--flood → -S -c 20 -i u100000</code>: Poistin rajattoman pakettien lähetyksen ja otin käyttöön TCP SYN -pakettien lähettämisen. Rajoitin pakettimäärän 20:een ja määritin lähetysväliksi 100 000 mikrosekuntia eli 0,1 sekuntia.</li>
+    </ul>
+    
+    <p>Säilytin muut keskeiset asetukset ennallaan. Simulaatiossa oli kahdeksan isäntälaitetta, hyökkäyksen kohteena oli osoite 10.0.0.8 ja lähdeosoitteena käytettiin osoitetta 10.1.1.1.</p>
+    
+    <p>Käynnistin Ryu-ohjaimen komennolla: <code>ryu-manager ryu.app.simple_switch_13</code></p>
+    
+    <p>Tämän jälkeen suoritin simulaation komennolla: <code>sudo python3 tree_topology.py</code></p>
+    
+    <p>Ohjelma käynnisti Mininet-verkon ja suoritti yhden testikierroksen. Tulosteessa näkyi, mikä kone valittiin hyökkääjäksi ja mikä kone lähetti normaalia liikennettä. Simulaation aikana hyökkääjäksi valittiin h6 ja normaalia liikennettä lähettäväksi koneeksi h0.</p>
+    
+    <img src="syn1.png" alt="TCP SYN-Flood -simulaation suorittaminen">
+    
+    <p>Tallensin simulaation aikana syntynyttä verkkoliikennettä ja avasin syn-test.pcap-tiedoston Wiresharkissa.</p>
+    
+    <p>Rajasin liikenteen seuraavalla näyttösuodattimella: <code>tcp.flags.syn == 1 &amp;&amp; tcp.flags.ack == 0</code></p>
+    
+    <p>Suodattimen avulla pystyin tarkastelemaan TCP-paketteja, joissa SYN-lippu oli asetettu mutta ACK-lippu ei ollut päällä. Wiresharkissa näkyi 36 suodattimeen sopivaa pakettia.</p>
+    
+    <p>Pakettien tiedoista havaitsin seuraavat osoitteet:</p>
+    
+    <ul>
+        <li>Lähdeosoite: 10.1.1.1</li>
+        <li>Kohdeosoite: 10.0.0.8</li>
+    </ul>
+    
+    <p>TCP-paketin tiedoista pystyin tarkistamaan, että SYN-lippu oli asetettu (SYN: Set) ja ACK-lippu ei ollut asetettu (ACK: Not set). Tämä vastaa TCP-yhteyden muodostamisen ensimmäistä vaihetta.</p>
+    
+    <img src="syn2.png" alt="Wiresharkin näkymä TCP SYN -paketeista ja niiden osoitteista">
+    
     <h2>Lähteet</h2>
     <ul>
     </ul>
