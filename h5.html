@@ -83,7 +83,7 @@
 
     <p><a href="https://www.internetsociety.org/resources/doc/2015/addressing-the-challenge-of-ip-spoofing/">ICMP Spoofingissa</a> hyökkääjä väärentää ICMP-paketin lähdeosoitteen niin, että paketti näyttää tulevan toiselta koneelta. Näin vastaanottaja voi luulla saavansa vastauksen alkuperäiseltä kohdekoneelta, vaikka paketin on todellisuudessa lähettänyt hyökkääjä.</p>
     
-    <p>Käynnistin Mininet-verkon komennolla: <code>sudo python3 hub_topo.py</code>. Verkkoon muodostui neljä tietokonetta (h1, h2, h3 ja h4) sekä kytkin. Tarkistin verkon toiminnan komennolla <code>pingall</code>, ja kaikki koneet saivat yhteyden toisiinsa.</p>
+    <p>Käynnistin Mininet-verkon komennolla: <code>sudo python3 hub_topo.py</code>. Verkkoon muodostui neljä tietokonetta (h1, h2, h3 ja h4) sekä kytkin. Tarkistin verkon toiminnan komennolla <code>pingall</code> ja kaikki koneet saivat yhteyden toisiinsa.</p>
     
     <p>Avasin tarvittavat terminaalit komennolla: <code>xterm h1 h2 h3</code>.</p>
     
@@ -111,7 +111,7 @@
     
     <p>Käynnistin harjoituksen mininetissä komennolla: <code>sudo python3 hub_topo.py</code>. Verkkoon muodostui neljä tietokonetta ja kytkin. Tarkistin verkon toiminnan komennolla: <code>pingall</code> ja kaikki koneet saivat yhteyden toisiinsa.</p>
     
-    <p>Avasin harjoituksessa tarvittavat terminaalit komen­nolla: <code>xterm h1 h2 h3</code>. Harjoituksessa h1 toimi TCP-palvelimena, h2 asiakkaana ja h3 verkkoliikenteen tarkkailijana.</p>
+    <p>Avasin harjoituksessa tarvittavat terminaalit komen­nolla: <code>xterm h1 h2 h3</code>. Harjoituksessa h1 toimi TCP-palvelimena, h2 asiakkaana ja h3 hyökkääjänä.</p>
     
     <p>Seuraavaksi käynnistin h1-koneella TCP-palvelimen komennolla: <code>python3 tcp_server.py</code>. Palvelin jäi odottamaan yhteyksiä porttiin 12345.</p>
     
